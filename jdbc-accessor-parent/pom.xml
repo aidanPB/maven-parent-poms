@@ -9,8 +9,20 @@
   <version>0.0.2-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>${project.groupId}:${project.artifactId}</name>
-  <description>A parent POM for Maven artifacts that need Apache Commons DbUtils and/or Apache Commons DBCP.</description>
+  <description>A parent POM for Maven artifacts that need one or more of Apache Commons {DbUtils, DBCP}, and Liquibase.</description>
   <inceptionYear>2015</inceptionYear>
+  <properties>
+    <!-- Child projects MUST declare db.driver.class -->
+    <db.driver.class>foo.bar.baz.Driver</db.driver.class>
+    <!-- Child projects MUST declare db.jdbc.url -->
+    <db.jdbc.url>jdbc:type:dburl</db.jdbc.url>
+    <!-- Child projects SHOULD declare db.user.name -->
+    <db.user.name>developer</db.user.name>
+    <!-- Child projects SHOULD declare db.user.pass -->
+    <db.user.pass>passphrase</db.user.pass>
+    <!-- Child projects SHOULD NOT declare db.liquibase.dir -->
+    <db.liquibase.dir>${project.build.directory}/liquibase</db.liquibase.dir>
+  </properties>
   <dependencyManagement>
   	<dependencies>
   		<dependency>
@@ -23,6 +35,47 @@
   			<artifactId>commons-dbutils</artifactId>
   			<version>1.6</version>
   		</dependency>
+  		<dependency>
+  			<groupId>org.liquibase</groupId>
+  			<artifactId>liquibase-core</artifactId>
+  			<version>3.3.3</version>
+  		</dependency>
   	</dependencies>
   </dependencyManagement>
+  <build>
+    <pluginManagement>
+      <plugins>
+      	<plugin>
+      		<groupId>org.liquibase</groupId>
+      		<artifactId>liquibase-maven-plugin</artifactId>
+      		<version>3.3.3</version>
+      		<configuration>
+      		  <changeLogFile>${db.liquibase.dir}/lqbase.xml</changeLogFile>
+      		  <changeSetAuthor>${user.name}</changeSetAuthor>
+      		  <dataDir>${db.liquibase.dir}/data</dataDir>
+      		  <driver>${db.driver.class}</driver>
+      		  <url>${db.jdbc.url}</url>
+      		  <username>${db.user.name}</username>
+      		  <password>${db.user.pass}</password>
+      		</configuration>
+      		<executions>
+      		  <execution>
+      		    <id>db-update</id>
+      		    <phase>generate-resources</phase>
+      		    <goals>
+      		      <goal>update</goal>
+      		    </goals>
+      		  </execution>
+      		  <execution>
+      		    <id>generate-db-docs</id>
+      		    <phase>process-resources</phase>
+      		    <goals>
+      		      <goal>dbDoc</goal>
+      		    </goals>
+      		  </execution>
+      		</executions>
+      	</plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
 </project>
