@@ -23,7 +23,6 @@
   	      <groupId>org.apache.maven.plugins</groupId>
   	      <artifactId>maven-resources-plugin</artifactId>
   	      <executions>
-  	      
   	        <execution>
   	          <id>generate-sources</id>
   	          <phase>generate-sources</phase>
@@ -99,11 +98,12 @@
   	    </plugin>
   	    
   	    <plugin>
-  	    	<groupId>org.codehaus.mojo</groupId>
-  	    	<artifactId>aspectj-maven-plugin</artifactId>
-  	    	<version>1.7</version>
-  	    	<executions>
-              <execution>
+  	      <groupId>org.codehaus.mojo</groupId>
+  	      <artifactId>aspectj-maven-plugin</artifactId>
+  	      <version>1.7</version>
+  	      <executions>
+            <execution>
+              <id>aspectj-compile</id>
               <goals>
                 <goal>compile</goal>
               </goals>
@@ -114,26 +114,31 @@
   	</pluginManagement>
   </build>
 
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
-    
-    <dependency>
-    	<groupId>commons-logging</groupId>
-    	<artifactId>commons-logging</artifactId>
-    	<version>1.2</version>
-    </dependency>
-    <dependency>
-    	<groupId>org.apache.commons</groupId>
-    	<artifactId>commons-lang3</artifactId>
-    	<version>3.4</version>
-    </dependency>
-  </dependencies>
   
   <description>The root of the inheritance tree for GroupId:${project.groupId} artifacts.</description>
   <inceptionYear>2015</inceptionYear>
+  <dependencyManagement>
+  	<dependencies>
+  	  <dependency>
+  		<groupId>commons-beanutils</groupId>
+  		<artifactId>commons-beanutils</artifactId>
+  		<version>1.9.2</version>
+  	  </dependency>
+  	  <dependency>
+  		<groupId>junit</groupId>
+  		<artifactId>junit</artifactId>
+  		<version>3.8.1</version>
+  	  </dependency>
+  	  <dependency>
+  		<groupId>commons-logging</groupId>
+  		<artifactId>commons-logging</artifactId>
+  		<version>1.2</version>
+  	  </dependency>
+  	  <dependency>
+  		<groupId>org.apache.commons</groupId>
+  		<artifactId>commons-lang3</artifactId>
+  		<version>3.4</version>
+  	  </dependency>
+  	</dependencies>
+  </dependencyManagement>
 </project>

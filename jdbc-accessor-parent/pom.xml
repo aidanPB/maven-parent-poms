@@ -9,7 +9,7 @@
   <version>0.0.2-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>${project.groupId}:${project.artifactId}</name>
-  <description>A parent POM for Maven artifacts that need one or more of Apache Commons {DbUtils, DBCP}, and Liquibase.</description>
+  <description>A parent POM for Maven artifacts that need one or more of Apache Commons {DbUtils, DBCP}, Java Data Objects, POJava.org Persistence, org.bsc.bean:beanmanager, and Liquibase.</description>
   <inceptionYear>2015</inceptionYear>
   <properties>
     <!-- Child projects MUST declare db.driver.class -->
@@ -39,6 +39,22 @@
   			<groupId>org.liquibase</groupId>
   			<artifactId>liquibase-core</artifactId>
   			<version>3.3.3</version>
+  		</dependency>
+  		<dependency>
+  			<groupId>javax.jdo</groupId>
+  			<artifactId>jdo-api</artifactId>
+  			<version>3.1</version>
+  		</dependency>
+  		<dependency>
+  			<groupId>org.pojava</groupId>
+  			<artifactId>persistence</artifactId>
+  			<version>3.0.0</version>
+  		</dependency>
+  		<dependency>
+  			<groupId>org.bsc.bean</groupId>
+  			<artifactId>beanmanager</artifactId>
+  			<version>1.4.1</version>
+  			<type>pom</type>
   		</dependency>
   	</dependencies>
   </dependencyManagement>
