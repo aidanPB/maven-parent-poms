@@ -12,16 +12,31 @@
   <description>A parent POM for Maven artifacts that need one or more of Apache Commons {DbUtils, DBCP}, Java Data Objects, POJava.org Persistence, org.bsc.bean:beanmanager, and Liquibase.</description>
   <inceptionYear>2015</inceptionYear>
   <properties>
-    <!-- Child projects MUST declare db.driver.class -->
-    <db.driver.class>foo.bar.baz.Driver</db.driver.class>
-    <!-- Child projects MUST declare db.jdbc.url -->
-    <db.jdbc.url>jdbc:type:dburl</db.jdbc.url>
     <!-- Child projects SHOULD declare db.user.name -->
     <db.user.name>developer</db.user.name>
     <!-- Child projects SHOULD declare db.user.pass -->
     <db.user.pass>passphrase</db.user.pass>
+    <!-- Child projects MAY declare db.java.api -->
+    <db.java.api>JDO</db.java.api>
+    
+    <!-- IF using JDBC -->
+    <!-- Child projects MUST declare db.driver.class -->
+    <db.jdbc.driver>foo.bar.baz.Driver</db.jdbc.driver>
+    <!-- Child projects MUST declare db.jdbc.url -->
+    <db.jdbc.url>jdbc:type:dburl</db.jdbc.url>
+    <!-- END IF using JDBC -->
+    
+    <!-- IF using Liquibase -->
     <!-- Child projects SHOULD NOT declare db.liquibase.dir -->
     <db.liquibase.dir>${project.build.directory}/liquibase</db.liquibase.dir>
+    <!-- END IF using Liquibase -->
+    
+    <!-- IF using DataNucleus -->
+    <!-- Child projects MAY declare db.datanucleus.quiet -->
+    <db.datanucleus.quiet>false</db.datanucleus.quiet>
+    <!-- Child projects MAY declare db.datanucleus.verbose -->
+    <db.datanucleus.verbose>true</db.datanucleus.verbose>
+    <!-- END IF using DataNucleus -->
   </properties>
   <dependencyManagement>
   	<dependencies>
@@ -99,6 +114,16 @@
       		    </goals>
       		  </execution>
       		</executions>
+      	</plugin>
+      	<plugin>
+      	  <groupId>org.datanucleus</groupId>
+      	  <artifactId>datanucleus-maven-plugin</artifactId>
+      	  <version>4.0.0-release</version>
+      	  <configuration>
+      	    <api>${db.java.api}</api>
+      	    <quiet>${db.datanucleus.quiet}</quiet>
+      	    <verbose>${db.datanucleus.verbosity}</verbose>
+      	  </configuration>
       	</plugin>
       </plugins>
     </pluginManagement>
