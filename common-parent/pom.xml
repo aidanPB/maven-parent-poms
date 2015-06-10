@@ -14,6 +14,8 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.6</maven.compiler.source>
     <maven.compiler.target>1.6</maven.compiler.target>
+    <javadoc.stylesheet.file>target/javadoc-style.css</javadoc.stylesheet.file>
+    <skip.local.attach>false</skip.local.attach>
   </properties>
   
   <build>
@@ -62,7 +64,6 @@
   	            <outputDirectory>${basedir}/gen/test/java</outputDirectory>
   	          </configuration>
   	        </execution>
-  	        
   	      </executions>
   	    </plugin>
   	    
@@ -139,6 +140,86 @@
   		<artifactId>commons-lang3</artifactId>
   		<version>3.4</version>
   	  </dependency>
+  	  <dependency>
+  	  	<groupId>org.apache.commons</groupId>
+  	  	<artifactId>commons-math3</artifactId>
+  	  	<version>3.5</version>
+  	  </dependency>
+  	  <dependency>
+  	  	<groupId>org.apache.commons</groupId>
+  	  	<artifactId>commons-collections4</artifactId>
+  	  	<version>4.0</version>
+  	  </dependency>
   	</dependencies>
   </dependencyManagement>
+  <licenses>
+  	<license>
+  		<name>MIT license (also X11)</name>
+  		<url>http://www.spdx.org/licenses/MIT</url>
+  	</license>
+  </licenses>
+  <profiles>
+    <profile>
+      <id>custom-javadoc-style</id>
+      <activation>
+        <file>
+          <exists>${javadoc.stylesheet.file}</exists>
+        </file>
+      </activation>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-javadoc-plugin</artifactId>
+              <configuration>
+                <stylesheetfile>${javadoc.stylesheet.file}</stylesheetfile>
+              </configuration>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+      </build>
+    </profile>
+    
+    <profile>
+      <id>local-repo-attachments</id>
+      <activation>
+        <property>
+          <name>skip.local.attach</name>
+          <value>false</value>
+        </property>
+      </activation>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-javadoc-plugin</artifactId>
+              <executions>
+                <execution>
+                  <id>local-repo-javadocs</id>
+                  <goals>
+                    <goal>jar</goal>
+                  </goals>
+                </execution>
+              </executions>
+            </plugin>
+            
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-source-plugin</artifactId>
+              <executions>
+                <execution>
+                  <id>local-repo-sources</id>
+                  <goals>
+                    <goal>jar</goal>
+                  </goals>
+                </execution>
+              </executions>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+      </build>
+    </profile>
+  </profiles>
 </project>
