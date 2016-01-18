@@ -3,21 +3,19 @@
   <parent>
     <groupId>com.github.aidanPB</groupId>
     <artifactId>common-parent</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
   </parent>
   <artifactId>jdbc-accessor-parent</artifactId>
   <version>0.0.2-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>${project.groupId}:${project.artifactId}</name>
-  <description>A parent POM for Maven artifacts that need one or more of Apache Commons {DbUtils, DBCP}, Java Data Objects, POJava.org Persistence, org.bsc.bean:beanmanager, and Liquibase.</description>
+  <description>A parent POM for Maven artifacts that need one or more of Apache Commons {DbUtils, DBCP}, POJava.org Persistence, org.bsc.bean:beanmanager, Apache Derby, EclipseLink, DataNucleus, and Liquibase.</description>
   <inceptionYear>2015</inceptionYear>
   <properties>
     <!-- Child projects SHOULD declare db.user.name -->
     <db.user.name>developer</db.user.name>
     <!-- Child projects SHOULD declare db.user.pass -->
     <db.user.pass>passphrase</db.user.pass>
-    <!-- Child projects MAY declare db.java.api -->
-    <db.java.api>JDO</db.java.api>
     
     <!-- IF using JDBC -->
     <!-- Child projects MUST declare db.driver.class -->
@@ -36,6 +34,8 @@
     <db.datanucleus.quiet>false</db.datanucleus.quiet>
     <!-- Child projects MAY declare db.datanucleus.verbose -->
     <db.datanucleus.verbose>true</db.datanucleus.verbose>
+    <!-- Child projects MAY declare db.java.api -->
+    <db.java.api>JDO</db.java.api>
     <!-- END IF using DataNucleus -->
   </properties>
   <dependencyManagement>
@@ -80,6 +80,16 @@
   			<artifactId>beanmanager-jpa</artifactId>
   			<version>1.4.1</version>
   		</dependency>
+  		<dependency>
+  			<groupId>org.apache.derby</groupId>
+  			<artifactId>derby</artifactId>
+  			<version>10.12.1.1</version>
+  		</dependency>
+  		<dependency>
+  			<groupId>org.eclipse.persistence</groupId>
+  			<artifactId>eclipselink</artifactId>
+  			<version>2.6.1</version>
+  		</dependency>
   	</dependencies>
   </dependencyManagement>
   <build>
@@ -122,7 +132,7 @@
       	  <configuration>
       	    <api>${db.java.api}</api>
       	    <quiet>${db.datanucleus.quiet}</quiet>
-      	    <verbose>${db.datanucleus.verbosity}</verbose>
+      	    <verbose>${db.datanucleus.verbose}</verbose>
       	  </configuration>
       	</plugin>
       </plugins>
